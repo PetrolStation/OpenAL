@@ -1,5 +1,6 @@
 #include <PCH.h>
 
+#include "Core/DebugTools.h"
 #include "Sound.h"
 
 #include <thread>
@@ -27,7 +28,7 @@ static int convertToInt(const char* buffer, int len) {
     return a;
 }
 
-static char* loadWAV(const char* fn, uint16& channels, uint32& samplerate, uint16& bitsPerSample, uint32& size) {
+static char* loadWAV(const char* fn, uint16& channels, uint32& samplerate, uint16& bitsPerSample, uint32& size) { LOG_FUNCTION();
     char buffer[4];
     std::ifstream in(fn, std::ios::binary);
 
@@ -93,7 +94,7 @@ namespace PetrolEngine {
     ALCdevice* Sound::device;
     ALCcontext* Sound::context;
 
-    int Sound::init() {
+    int Sound::init() { LOG_FUNCTION();
         device = alcOpenDevice(nullptr);
 
         if (!device) { LOG("Cannot open sound card.", 3); return 1; }
@@ -110,7 +111,7 @@ namespace PetrolEngine {
         return 0;
     }
 
-    int Sound::soundPlayer(const char *file) {
+    int Sound::soundPlayer(const char *file) { LOG_FUNCTION();
         if ( !context || !alcMakeContextCurrent(context) ) {
             if (context) alcDestroyContext(context);
             alcCloseDevice(device);
@@ -152,7 +153,7 @@ namespace PetrolEngine {
         return 0;
     }
 
-    void Sound::destroy() {
+    void Sound::destroy() { LOG_FUNCTION();
         alcDestroyContext(context);
         alcCloseDevice(device);
     }
